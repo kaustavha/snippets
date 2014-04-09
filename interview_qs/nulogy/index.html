@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <link rel="stylesheet" href="style.css">    
+    <link data-require="jasmine@*" data-semver="1.3.1" rel="stylesheet" href="//cdn.jsdelivr.net/jasmine/1.3.1/jasmine.css" />
+    <script data-require="jasmine@*" data-semver="1.3.1" src="//cdn.jsdelivr.net/jasmine/1.3.1/jasmine.js"></script>
+    <script data-require="jasmine@*" data-semver="1.3.1" src="//cdn.jsdelivr.net/jasmine/1.3.1/jasmine-html.js"></script>
+    <script data-require="json2@*" data-semver="0.0.2012100-8" src="//cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js"></script>
+  </head>
+
+  <body>
+    <h1>Hello Nulogy!</h1>
+    
+    <div class="input">
+    <h2>Form input</h2>
+    <form name="constrainedInput">
+       <p>Base Price</p>
+    <input type="number" name="bPrc" placeholder="Base Price(numeric)"/>
+    <p>Number of People</p>
+    <input type="number" name="nPpl" placeholder="Number of People(numeric)" />
+    <br /><br />
+      <select name="cat">
+    <option value="" disabled="disabled" selected="selected">Please select a category</option>
+    <option value="pharma">Pharmaceuticals/drugs</option>
+    <option value="food">Food/Edibles</option>
+    <option value="elec">Electronics</option>
+    <option value="">Other</option>
+      </select>
+      </form>
+      <br /><br />
+      <button id="formInput">Calculate</button>
+    </div>
+    
+    <div class="input">
+    <h2>Free Input</h2>
+      <pre id="freeInput" class="box" contentEditable="true">
+   Example Input: 
+  $1000/1000
+ 10 peoples/people
+  FoOd/food
+   Input is capped at 3 lines
+   Well you can write an essay here if you want, it'll just alert and die
+      </pre>
+      <button id="contentEditableInput">Calculate</button>
+    </div>
+
+    <div class="input">
+    <h2>CSV Input</h2>
+      <input type="file" id="fileInput">
+    </div>
+    
+  </body>
+<script src="calculator.js"></script>
+<script src="input.js"></script>
+</html>

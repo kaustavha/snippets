@@ -1,0 +1,10 @@
+/* Styles go here */
+body h1 {
+	text-align: center;
+}
+.input{
+	display: inline-block;
+	width: 33%;
+	text-align: center;
+	vertical-align: top;
+}

@@ -1,0 +1,44 @@
+My solution is comprised of 3 .py files. 
+A scraper which scrapes the first <a class="title " from reddit, i.e the first headline, generates a twiML file with this content and finally calls the caller. 
+The caller contains twilio specific information, and generates the phone call. 
+Finally a server serves up the twiML file for twilio to consume. 
+Additionally, the scraper takes arguments for the caller, passing them on. These set the number of the person being called, and the url of the twiML file. Also, the server, at /, generates a file containing the source code the 3 .py files and the twiML file at the time, and serves up a text string representation.  
+The server is rendered into a service, and cron is used to call the scraper at the scheduled time. 
+
+==================================================================
+Steps:
+
+Create an aws account, start up an ec2 instance
+scp a .tar.gz of the files onto the home directory using the amazon credentials "scp -i name.pem fileName hostName@remote.com:~/."
+ssh in with credentials on ec2 instance connect page
+mkdir jana && mv jana.tar.gz jana/ && tar -zxf jana/jana.tar.gz && rm jana.tar.gz
+
+This should get us setup, some bugfixing for missing libraries went into this string. It should install all required packages for our problem, and a couple extra such as nginx.
+sudo apt-get install python python-pip build-essential python-dev python-setuptools libboost-python-dev libboost-thread-dev libxml2-dev libxslt-dev libz-dev postfix alpine nginx lynx -y
+
+sudo pip install twilio scrapy flask
+
+Next we set up nginx. I simply added the following to the etc/nginx/nginx.conf file inside http {}
+server {
+       location / {
+                   proxy_pass http://0.0.0.0:10080
+                   }
+       }       
+Configured the server to run at startup and continue till shutdown, essentially daemonizing it. 
+Created a new file in etc/init called jana.conf with
+{
+start on local-filesystems
+respawn
+script
+       chdir home/ubuntu/jana
+       exec python server.py
+end script
+}
+Create an elastic ip and set security configurations for amazon VPC and instance, now we have access from the internet.
+Create bash script which calls the scraper-caller setup. I called mine runScraper_name.sh
+Schedule the script for timespec.
+crontab -e -> 0 17 28 2 * sh /home/ubuntu/jana/runscraper_dan.sh
+I used nohup for testing the server as a daemon, lynx for testing the ports, connectivity and server, postfix and alpine are used to get cron working.
+
+==================================================================
+
